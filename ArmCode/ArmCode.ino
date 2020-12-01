@@ -129,8 +129,8 @@ void readAngleValues(){
 
 void printAngleValues(){
   Serial.print("Controls: ");
-  if(mcont){ Serial.print("Manual") };
-  else{ Serial.print("Spacial"); }
+  if(mcont){ Serial.print("Manual"); }
+  else{ Serial.print("Spatial"); }
   Serial.print(" | J1: ");
   Serial.print(Base);
   Serial.print(" | J2: ");
