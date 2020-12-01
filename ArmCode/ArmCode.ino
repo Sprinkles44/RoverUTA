@@ -50,6 +50,8 @@ bool rota;
 bool rotb;
 bool rotc;
 bool rotd;
+// Manual Controls
+bool mcont;
 // Arm Limb lengths in inches
 int L1 = 27.5;
 int L2 = 7;
@@ -74,6 +76,7 @@ void setup() {
   pinMode(Sole, OUTPUT);
   // Turning all motors off by default
   restartAngles();
+  mcont = false;
 }
 
 
@@ -84,6 +87,16 @@ void loop() {
   if (Serial.available() > 0){
     input = Serial.read();
     if(input == 'r'){ restartAngles(); }
+    else if(input == 'c'){
+      rot = false;
+      mcont = true;
+      while(mcont){
+        keyboardArmControls();
+        readNewAngles();
+        printAngleValues();
+      }
+      
+    }
     else if(input == 'n'){ 
       readNewAngles();
       rot = true;
@@ -96,8 +109,6 @@ void loop() {
   if(rot){
     adjustArmAngles();
   }
-//  Serial.print("rot = ");
-//  Serial.println(rot);
 }
 
 
@@ -117,7 +128,10 @@ void readAngleValues(){
 
 
 void printAngleValues(){
-  Serial.print("J1: ");
+  Serial.print("Controls: ");
+  if(mcont){ Serial.print("Manual") };
+  else{ Serial.print("Spacial"); }
+  Serial.print(" | J1: ");
   Serial.print(Base);
   Serial.print(" | J2: ");
   Serial.print(Shoulder);
@@ -225,18 +239,11 @@ void adjustArmAngles(){
     analogWrite(PWM5, 0);
     rotd = false;
   }
-  if (!rota && !rotb && !rotc && !rotd) { rot = false; }
+  if (!rota && !rotb && !rotc && !rotd){ rot = false; }
 }
 
 
 //void anglesTo3D() {
-//  Base = analogRead(J1);
-//  Shoulder = analogRead(J2);
-//  Elbow = analogRead(J3);
-//  Wrist = analogRead(J5);
-//  
-//
-//  
 //}
 
 
@@ -244,7 +251,8 @@ void adjustArmAngles(){
 void keyboardArmControls(){
   if (Serial.available() > 0) {
     input = Serial.read();
-    if(input == 'a'){ //if statements for J1/Base
+    if(input == 'c'){ mcont = false; }
+    else if(input == 'a'){ //if statements for J1/Base
       Serial.println("J1 DOWN");
       digitalWrite(InA1, HIGH);
       digitalWrite(InB1, LOW);
