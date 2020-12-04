@@ -99,7 +99,7 @@ void loop() {
     }
     else if(input == 'n'){ 
       readNewAngles();
-      rot = true;
+      rot = true; // Redundance that helps prevent unwanted arm movement
       rota = true;
       rotb = true;
       rotc = true;
