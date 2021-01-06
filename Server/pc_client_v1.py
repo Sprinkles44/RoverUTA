@@ -1,12 +1,12 @@
 # host_ip = '192.168.1.108' # IP of Rover using WiFi
-
+# host_ip = '192.168.1.0' # IP of Rover using Ethernet <-- THIS IS WHAT IS HOOKED UP TO THE ROCKET
 
 import socket, cv2, pickle, struct
 import numpy as np
 
 ## Create Socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host_ip = '192.168.1.108' # IP of Rover
+host_ip = '192.168.1.0' # IP of Rover
 port = 9999
 client_socket.connect((host_ip, port)) # tuple
 data = b""
